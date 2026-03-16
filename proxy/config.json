@@ -1,0 +1,6 @@
+{
+  "mode": "stable",
+  "stable_url": "http://localhost:5001",
+  "test_url": "http://localhost:5002",
+  "canary_percent": 10
+}
