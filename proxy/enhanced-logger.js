@@ -7,21 +7,18 @@ class EnhancedLogger {
     this.initLogsDirectory();
   }
 
-  // Create logs folder if it doesn't exist
   initLogsDirectory() {
     if (!fs.existsSync(this.logsDir)) {
       fs.mkdirSync(this.logsDir, { recursive: true });
-      console.log("✅ Created logs directory");
+      console.log("[INFO] Created logs directory");
     }
   }
 
-  // Get today's log filename
   getLogFilename() {
-    const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+    const today = new Date().toISOString().split("T")[0];
     return path.join(this.logsDir, `requests-${today}.json`);
   }
 
-  // Log a request
   logRequest(req, res, duration, target, statusCode) {
     const logEntry = {
       timestamp: new Date().toISOString(),
@@ -39,23 +36,17 @@ class EnhancedLogger {
     const logFile = this.getLogFilename();
 
     try {
-      fs.appendFileSync(
-        logFile,
-        JSON.stringify(logEntry) + "\n",
-        "utf8"
-      );
+      fs.appendFileSync(logFile, JSON.stringify(logEntry) + "\n", "utf8");
     } catch (err) {
-      console.error("❌ Error writing log:", err.message);
+      console.error("[ERROR] Error writing log:", err.message);
     }
 
-    // Also log to console for real-time visibility
-    const statusEmoji = statusCode >= 400 ? "❌" : "✅";
+    const status = statusCode >= 400 ? "ERROR" : "SUCCESS";
     console.log(
-      `${statusEmoji} [${statusCode}] ${req.method} ${req.path} → ${target} (${duration}ms)`
+      `[${status}] [${statusCode}] ${req.method} ${req.path} -> ${target} (${duration}ms)`
     );
   }
 
-  // Get all logs for a specific date
   getLogsForDate(dateString) {
     const logFile = path.join(this.logsDir, `requests-${dateString}.json`);
 
@@ -72,18 +63,16 @@ class EnhancedLogger {
 
       return logs;
     } catch (err) {
-      console.error("❌ Error reading logs:", err.message);
+      console.error("[ERROR] Error reading logs:", err.message);
       return null;
     }
   }
 
-  // Get logs for today
   getTodayLogs() {
     const today = new Date().toISOString().split("T")[0];
     return this.getLogsForDate(today);
   }
 
-  // Calculate error rate from logs
   calculateErrorRate(logs) {
     if (!logs || logs.length === 0) return 0;
 

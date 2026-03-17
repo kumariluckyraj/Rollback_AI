@@ -26,7 +26,7 @@ const getConfig = () => {
     const data = fs.readFileSync("./config.json", "utf8");
     return JSON.parse(data);
   } catch (err) {
-    console.error("Error reading config:", err.message);
+    console.error("[ERROR] Error reading config:", err.message);
     return {
       mode: "stable",
       stable_url: "http://127.0.0.1:5001",
@@ -35,8 +35,6 @@ const getConfig = () => {
     };
   }
 };
-
-// API ENDPOINTS FIRST (before main routing middleware)
 
 app.get("/api/stats", (req, res) => {
   const stats = errorTracker.getStats();
@@ -69,7 +67,7 @@ app.post("/api/config", (req, res) => {
     config.mode = mode;
     fs.writeFileSync("./config.json", JSON.stringify(config, null, 2), "utf8");
 
-    console.log("Config updated: mode ->", mode);
+    console.log("[INFO] Config updated: mode changed to", mode);
 
     res.json({ success: true, newMode: mode });
   } catch (err) {
@@ -105,8 +103,6 @@ app.post("/api/reset-stats", (req, res) => {
   res.json({ success: true, message: "Stats reset" });
 });
 
-// MAIN ROUTING MIDDLEWARE (after API endpoints)
-
 app.use((req, res) => {
   const config = getConfig();
   let target = null;
@@ -123,7 +119,7 @@ app.use((req, res) => {
       target = config.stable_url;
     }
   } else {
-    console.error("Invalid mode:", config.mode);
+    console.error("[ERROR] Invalid mode:", config.mode);
     target = config.stable_url;
   }
 
@@ -143,25 +139,25 @@ app.use((req, res) => {
 
   proxy.web(req, res, { target }, (err) => {
     if (err) {
-      console.error("Proxy error:", err.message);
+      console.error("[ERROR] Proxy error:", err.message);
       res.status(502).json({ error: "Proxy error" });
     }
   });
 });
 
 proxy.on("error", (err, req, res) => {
-  console.error("Proxy connection error:", err.message);
+  console.error("[ERROR] Proxy connection error:", err.message);
   if (!res.headersSent) {
     res.status(502).json({ error: "Bad Gateway" });
   }
 });
 
 app.listen(4000, () => {
-  console.log("Proxy running on port 4000");
-  console.log("Config: ./config.json");
-  console.log("Logs: ./logs/");
-  console.log("Auto-rollback threshold: 20% error rate");
-  console.log("\nEndpoints:");
+  console.log("[INFO] Proxy running on port 4000");
+  console.log("[INFO] Config file: ./config.json");
+  console.log("[INFO] Logs directory: ./logs/");
+  console.log("[INFO] Auto-rollback threshold: 20% error rate");
+  console.log("\n[ENDPOINTS]");
   console.log("GET  /api/stats");
   console.log("GET  /api/logs");
   console.log("GET  /api/config");
