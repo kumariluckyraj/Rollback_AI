@@ -1,0 +1,226 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f5f5;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.header {
+  background-color: #1a1a1a;
+  color: white;
+  padding: 30px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.header h1 {
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.header p {
+  font-size: 16px;
+  opacity: 0.8;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+section {
+  background-color: white;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+section h2 {
+  font-size: 20px;
+  margin-bottom: 20px;
+  color: #333;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 10px;
+}
+
+/* Stats Section */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.stat-card {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 6px;
+  border-left: 4px solid #007bff;
+  text-align: center;
+}
+
+.stat-card.alert {
+  border-left-color: #dc3545;
+  background-color: #fff5f5;
+}
+
+.stat-card label {
+  display: block;
+  font-size: 12px;
+  color: #666;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.stat-value {
+  font-size: 28px;
+  font-weight: bold;
+  color: #1a1a1a;
+}
+
+/* Mode Control */
+.mode-display {
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 18px;
+}
+
+.mode-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.mode-btn {
+  flex: 1;
+  padding: 12px 20px;
+  border: 2px solid #ddd;
+  background-color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.mode-btn:hover {
+  border-color: #007bff;
+  color: #007bff;
+}
+
+.mode-btn.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.mode-info {
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 6px;
+  font-size: 13px;
+  line-height: 1.8;
+  color: #666;
+}
+
+/* Rollback Section */
+.rollback-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 15px;
+  transition: background-color 0.3s;
+}
+
+.rollback-btn:hover {
+  background-color: #c82333;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+thead {
+  background-color: #f8f9fa;
+  border-bottom: 2px solid #ddd;
+}
+
+th {
+  padding: 12px;
+  text-align: left;
+  font-weight: bold;
+  color: #333;
+}
+
+td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #eee;
+}
+
+tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.error-row {
+  background-color: #fff5f5;
+}
+
+.status-ok {
+  color: #28a745;
+  font-weight: bold;
+}
+
+.status-error {
+  color: #dc3545;
+  font-weight: bold;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+
+  .header {
+    padding: 20px;
+  }
+
+  .header h1 {
+    font-size: 24px;
+  }
+
+  .mode-buttons {
+    flex-direction: column;
+  }
+
+  table {
+    font-size: 12px;
+  }
+
+  th, td {
+    padding: 8px;
+  }
+}
